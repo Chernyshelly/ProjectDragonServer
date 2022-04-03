@@ -5,12 +5,14 @@ namespace WebApi
     using CleanArchitecture.Infra.Data.Repositories;
     using Domain.Repository;
     using Infrastructure.EF;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.IdentityModel.Tokens;
     using Microsoft.OpenApi.Models;
 
     public class Startup
@@ -29,6 +31,34 @@ namespace WebApi
            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers();
+            services.AddAuthorization();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            // указывает, будет ли валидироваться издатель при валидации токена
+            ValidateIssuer = true,
+
+            // строка, представляющая издателя
+            ValidIssuer = AuthOptions.ISSUER,
+
+            // будет ли валидироваться потребитель токена
+            ValidateAudience = true,
+
+            // установка потребителя токена
+            ValidAudience = AuthOptions.AUDIENCE,
+
+            // будет ли валидироваться время существования
+            ValidateLifetime = true,
+
+            // установка ключа безопасности
+            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+
+            // валидация ключа безопасности
+            ValidateIssuerSigningKey = true,
+        };
+    });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
@@ -50,6 +80,7 @@ namespace WebApi
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
