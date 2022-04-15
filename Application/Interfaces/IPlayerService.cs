@@ -4,10 +4,10 @@
     using Application.DTO.Request;
     using Application.ViewModels;
 
-    public interface ITeacherService
+    public interface IPlayerService
     {
-        List<TeacherDto> GetTeachers();
+        List<PlayerDto> GetPlayers();
 
-        TeacherDto InsetTeacher(TeacherCreateRequestDto teacher);
+        PlayerDto InsetPlayer(PlayerCreateRequestDto player);
     }
 }

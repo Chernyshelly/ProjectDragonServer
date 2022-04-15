@@ -4,7 +4,9 @@
     using System.Collections.Generic;
     using System.IdentityModel.Tokens.Jwt;
     using System.Security.Claims;
-    using Microsoft.AspNetCore.Authorization;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Microsoft.IdentityModel.Tokens;
@@ -18,6 +20,16 @@
         public AuthController(ILogger<AuthController> logger)
         {
             this.logger = logger;
+        }
+
+        [HttpPost("login")]
+        public async Task LoginAsync(HttpContext context)
+        {
+            var claimsIdentity = new ClaimsIdentity("Bearer");
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            // установка аутентификационных куки
+            await context.SignInAsync(claimsPrincipal);
         }
 
         [HttpGet("token/{username}")]
@@ -36,11 +48,18 @@
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
-        [Authorize]
         [HttpGet("test")]
-        public string Test()
+        public string Test(HttpContext context)
         {
-            return "works";
+            var user = context.User.Identity;
+            if (user is not null && user.IsAuthenticated)
+            {
+                return $"Пользователь аутентифицирован. Тип аутентификации: {user.AuthenticationType}";
+            }
+            else
+            {
+                return "Пользователь НЕ аутентифицирован";
+            }
         }
     }
 }
