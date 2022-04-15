@@ -28,6 +28,15 @@
             return this.Ok(_playerService.GetPlayers());
         }
 
+        [HttpPost("register")]
+        public ActionResult<PlayerDto> Register([FromBody] LoginModel player)
+        {
+            var resPlayer = new PlayerCreateRequestDto();
+            resPlayer.Username = player.UserName;
+            resPlayer.Password = player.Password;
+            return this.Ok(_playerService.InsertPlayer(resPlayer));
+        }
+
         [HttpPost]
         public ActionResult<PlayerDto> Insert([FromBody] PlayerCreateRequestDto player)
         {
