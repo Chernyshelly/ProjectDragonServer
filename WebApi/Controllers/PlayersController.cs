@@ -4,6 +4,7 @@
     using Application.DTO.Request;
     using Application.Interfaces;
     using Application.ViewModels;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
@@ -20,6 +21,7 @@
             _playerService = playerService;
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult<List<PlayerDto>> Get()
         {
