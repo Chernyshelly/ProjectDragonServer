@@ -8,6 +8,8 @@
     {
         List<PlayerDto> GetPlayers();
 
-        PlayerDto InsetPlayer(PlayerCreateRequestDto player);
+        public PlayerDto EditPlayer(PlayerEditRequestDto player);
+
+        PlayerDto InsertPlayer(PlayerCreateRequestDto player);
     }
 }

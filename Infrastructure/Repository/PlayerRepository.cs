@@ -15,6 +15,26 @@
             this.context = context;
         }
 
+        public Player EditPlayer(Player player)
+        {
+            var entity = context.Players.FirstOrDefault(x => x.Id == player.Id);
+            if (player.Username is not null)
+            {
+                entity.Username = player.Username;
+            }
+
+            if (player.Password is not null)
+            {
+                entity.Password = player.Password;
+            }
+
+            entity.RefreshToken = player.RefreshToken;
+            entity.RefreshTokenExpiryTime = player.RefreshTokenExpiryTime;
+
+            context.SaveChanges();
+            return entity;
+        }
+
         public Player InsertPlayer(Player player)
         {
             var entity = context.Add(player);

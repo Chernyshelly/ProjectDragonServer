@@ -29,7 +29,7 @@
         [HttpPost]
         public ActionResult<PlayerDto> Insert([FromBody] PlayerCreateRequestDto player)
         {
-            return this.Ok(_playerService.InsetPlayer(player));
+            return this.Ok(_playerService.InsertPlayer(player));
         }
     }
 }

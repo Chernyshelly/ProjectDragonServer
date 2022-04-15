@@ -8,5 +8,7 @@
         IQueryable<Player> GetPlayers();
 
         Player InsertPlayer(Player player);
+
+        Player EditPlayer(Player player);
     }
 }

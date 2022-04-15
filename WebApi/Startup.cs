@@ -29,7 +29,7 @@ namespace WebApi
         {
             services.AddEntityFrameworkNpgsql().AddDbContext<DatabaseContext>(options =>
            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddTransient<ITokenService, TokenService>();
             services.AddControllers();
             services.AddAuthorization();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

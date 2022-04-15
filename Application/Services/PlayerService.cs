@@ -16,12 +16,18 @@
             _playerRepository = playerRepository;
         }
 
+        public PlayerDto EditPlayer(PlayerEditRequestDto player)
+        {
+            var resultPlayer = new PlayerDto(_playerRepository.EditPlayer(player.ToModel()));
+            return resultPlayer;
+        }
+
         public List<PlayerDto> GetPlayers()
         {
             return _playerRepository.GetPlayers().Select(x => new PlayerDto(x)).ToList();
         }
 
-        public PlayerDto InsetPlayer(PlayerCreateRequestDto player)
+        public PlayerDto InsertPlayer(PlayerCreateRequestDto player)
         {
             var createdPlayer = new PlayerDto(_playerRepository.InsertPlayer(player.ToModel()));
             return createdPlayer;
