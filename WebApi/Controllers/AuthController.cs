@@ -35,7 +35,7 @@
 
             var user = _playerService.GetPlayers()
                 .FirstOrDefault(u => (u.Username == loginModel.UserName) &&
-                                        (u.Password == loginModel.Password));
+                                        (u.Password == Hash.HMACHASH(loginModel.Password, Hash.Key)));
             if (user == null)
             {
                 return Unauthorized();
