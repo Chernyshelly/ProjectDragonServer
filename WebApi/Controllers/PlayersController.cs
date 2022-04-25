@@ -1,6 +1,7 @@
 ﻿namespace WebApi.Controllers
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Application.DTO.Request;
     using Application.Interfaces;
     using Application.ViewModels;
@@ -29,10 +30,17 @@
         [HttpPost("register")]
         public ActionResult<PlayerDto> Register([FromBody] LoginModel player)
         {
-            var resPlayer = new PlayerCreateRequestDto();
-            resPlayer.Username = player.UserName;
-            resPlayer.Password = Hash.HMACHASH(player.Password, Hash.Key);
-            return this.Ok(_playerService.InsertPlayer(resPlayer));
+            if (!_playerService.GetPlayers().Where(x => x.Username == player.UserName).Any())
+            {
+                var resPlayer = new PlayerCreateRequestDto();
+                resPlayer.Username = player.UserName;
+                resPlayer.Password = Hash.HMACHASH(player.Password, Hash.Key);
+                return this.Ok(_playerService.InsertPlayer(resPlayer));
+            }
+            else
+            {
+                return this.Conflict();
+            }
         }
 
         [HttpPost]
