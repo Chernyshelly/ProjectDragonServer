@@ -1,5 +1,6 @@
 ﻿namespace CleanArchitecture.Infra.Data.Repositories
 {
+    using System;
     using System.Linq;
     using Domain.Models;
     using Domain.Repository;
@@ -30,7 +31,7 @@
 
             entity.RefreshToken = player.RefreshToken;
             entity.RefreshTokenExpiryTime = player.RefreshTokenExpiryTime;
-            if (player.HighScore != new System.DateTime(0))
+            if (player.HighScore != new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified))
             {
                 entity.HighScore = player.HighScore;
             }
