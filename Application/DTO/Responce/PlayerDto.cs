@@ -12,6 +12,7 @@
             this.Password = player.Password;
             this.RefreshToken = player.RefreshToken;
             this.RefreshTokenExpiryTime = player.RefreshTokenExpiryTime;
+            this.HighScore = player.HighScore;
         }
 
         public PlayerDto()
@@ -27,5 +28,7 @@
         public string RefreshToken { get; set; }
 
         public DateTime RefreshTokenExpiryTime { get; set; }
+
+        public DateTime HighScore { get; set; }
     }
 }

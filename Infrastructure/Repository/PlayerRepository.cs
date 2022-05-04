@@ -30,6 +30,10 @@
 
             entity.RefreshToken = player.RefreshToken;
             entity.RefreshTokenExpiryTime = player.RefreshTokenExpiryTime;
+            if (player.HighScore != new System.DateTime(0))
+            {
+                entity.HighScore = player.HighScore;
+            }
 
             context.SaveChanges();
             return entity;

@@ -26,6 +26,8 @@
 
         public DateTime RefreshTokenExpiryTime { get; set; }
 
+        public DateTime HighScore { get; set; }
+
         public Player ToModel()
         {
             return new Player()
@@ -35,6 +37,7 @@
                 Password = this.Password,
                 RefreshToken = this.RefreshToken,
                 RefreshTokenExpiryTime = this.RefreshTokenExpiryTime,
+                HighScore = this.HighScore,
             };
         }
     }
