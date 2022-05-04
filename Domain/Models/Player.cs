@@ -14,6 +14,6 @@
 
         public DateTime RefreshTokenExpiryTime { get; set; }
 
-        public DateTime HighScore { get; set; } = new DateTime(1970, 1, 1);
+        public DateTime HighScore { get; set; }
     }
 }
