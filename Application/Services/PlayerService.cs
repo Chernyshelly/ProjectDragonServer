@@ -27,6 +27,11 @@
             return _playerRepository.GetPlayers().Select(x => new PlayerDto(x)).ToList();
         }
 
+        public List<LeaderboardPlayerDto> GetLeaderboardPlayers()
+        {
+            return _playerRepository.GetPlayers().Select(x => new LeaderboardPlayerDto(x)).ToList();
+        }
+
         public PlayerDto InsertPlayer(PlayerCreateRequestDto player)
         {
             var createdPlayer = new PlayerDto(_playerRepository.InsertPlayer(player.ToModel()));
