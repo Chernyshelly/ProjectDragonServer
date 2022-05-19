@@ -1,6 +1,5 @@
 ﻿namespace Application.ViewModels
 {
-    using System;
     using Domain.Models;
 
     public class LeaderboardPlayerDto

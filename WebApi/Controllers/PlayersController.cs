@@ -32,7 +32,7 @@
         }
 
         [HttpGet("leaderboard")]
-        public ActionResult<List<PlayerDto>> GetLeaderboard()
+        public ActionResult<List<LeaderboardPlayerDto>> GetLeaderboard()
         {
             return this.Ok(_playerService.GetLeaderboardPlayers().Where(x => x.HighScore != 0).OrderBy(x => x.HighScore));
         }
