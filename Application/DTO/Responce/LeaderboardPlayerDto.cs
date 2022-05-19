@@ -17,6 +17,6 @@
 
         public string Username { get; set; }
 
-        public DateTime HighScore { get; set; }
+        public int HighScore { get; set; }
     }
 }

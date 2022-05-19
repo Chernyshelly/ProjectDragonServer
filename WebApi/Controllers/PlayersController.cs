@@ -1,6 +1,5 @@
 ﻿namespace WebApi.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -35,7 +34,7 @@
         [HttpGet("leaderboard")]
         public ActionResult<List<PlayerDto>> GetLeaderboard()
         {
-            return this.Ok(_playerService.GetLeaderboardPlayers().Where(x => x.HighScore != new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)).OrderBy(x => x.HighScore));
+            return this.Ok(_playerService.GetLeaderboardPlayers().Where(x => x.HighScore != 0).OrderBy(x => x.HighScore));
         }
 
         [Authorize]
