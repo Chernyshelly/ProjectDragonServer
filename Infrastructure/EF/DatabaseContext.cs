@@ -12,6 +12,8 @@
 
         public DbSet<Player> Players { get; set; }
 
+        public DbSet<Save> Saves { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         }
