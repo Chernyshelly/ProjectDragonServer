@@ -6,10 +6,10 @@
     {
         public Save GetSaveByUsername(string username);
 
-        public void NewSave(Save save);
+        public Save NewSave(Save save);
 
         public void DeleteSave(int id);
 
-        public void UpdateSave(int id, string saveFileName);
+        public Save UpdateSave(int id, string saveFileName);
     }
 }
