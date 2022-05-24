@@ -35,7 +35,7 @@
 
                 // создаем папку для хранения файлов
                 Directory.CreateDirectory(uploadPath);
-                string fullPath = $"{uploadPath}/{file.FileName}";
+                string fullPath = $"{uploadPath}/{User.Identity.Name}";
 
                 // сохраняем файл в папку uploads
                 using (var fileStream = new FileStream(fullPath, FileMode.Create))
@@ -46,7 +46,7 @@
                 var save = _saveService.GetSaveByUsername(User.Identity.Name);
                 if (save != null)
                 {
-                    _saveService.UpdateSave(save.Id, file.FileName);
+                    _saveService.UpdateSave(save.Id, User.Identity.Name);
                 }
                 else
                 {
