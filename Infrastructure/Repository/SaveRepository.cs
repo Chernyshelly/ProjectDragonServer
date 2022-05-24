@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Repository
+﻿namespace CleanArchitecture.Infra.Data.Repositories
 {
     using System.Linq;
     using Domain.Models;
