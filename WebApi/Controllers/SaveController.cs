@@ -1,7 +1,9 @@
 ﻿namespace WebApi.Controllers
 {
     using System.IO;
+    using System.Linq;
     using System.Threading.Tasks;
+    using Application.DTO.Request;
     using Application.Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
@@ -14,11 +16,13 @@
     {
         private readonly ILogger<SaveController> logger;
         private ISaveService _saveService;
+        private IPlayerService _playerService;
 
-        public SaveController(ILogger<SaveController> logger, ISaveService saveService)
+        public SaveController(ILogger<SaveController> logger, ISaveService saveService, IPlayerService playerService)
         {
             this.logger = logger;
             this._saveService = saveService;
+            this._playerService = playerService;
         }
 
         [Authorize]
@@ -39,6 +43,20 @@
                     await file.CopyToAsync(fileStream);
                 }
 
+                var save = _saveService.GetSaveByUsername(User.Identity.Name);
+                if (save != null)
+                {
+                    _saveService.UpdateSave(save.Id, file.FileName);
+                }
+                else
+                {
+                    _saveService.NewSave(new SaveCreateRequestDto
+                    {
+                        Player = _playerService.GetPlayers().Where(x => x.Username == User.Identity.Name).FirstOrDefault().ToModel(),
+                        SaveFileName = file.FileName,
+                    });
+                }
+
                 return this.Ok();
             }
 
@@ -49,15 +67,24 @@
         [HttpGet("Download")]
         public FileStreamResult GetSave()
         {
-            var fileName = User.Identity.Name;
-            var mimeType = "application/octet-stream";
-            var uploadPath = $"{Directory.GetCurrentDirectory()}/uploads/{User.Identity.Name}";
-            var fileStream = new FileStream(uploadPath, FileMode.Open);
-
-            return new FileStreamResult(fileStream, mimeType)
+            var save = _saveService.GetSaveByUsername(User.Identity.Name);
+            if (save is not null)
             {
-                FileDownloadName = fileName,
-            };
+                var fileName = save.SaveFileName;
+                var mimeType = "application/octet-stream";
+                var uploadPath = $"{Directory.GetCurrentDirectory()}/uploads/{fileName}";
+                var fileStream = new FileStream(uploadPath, FileMode.Open);
+
+                return new FileStreamResult(fileStream, mimeType)
+                {
+                    FileDownloadName = fileName,
+                };
+            }
+            else
+            {
+                // Should return error code on release
+                return null;
+            }
         }
     }
 }
