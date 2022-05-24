@@ -1,14 +1,10 @@
 ﻿namespace WebApi.Controllers
 {
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
-    using System.Threading.Tasks;
     using Application.DTO.Request;
     using Application.Interfaces;
     using Application.ViewModels;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
@@ -35,45 +31,6 @@
         public ActionResult<List<LeaderboardPlayerDto>> GetLeaderboard()
         {
             return this.Ok(_playerService.GetLeaderboardPlayers().Where(x => x.HighScore != 0).OrderBy(x => x.HighScore));
-        }
-
-        [Authorize]
-        [HttpPost("save")]
-        public async Task<ActionResult> FileAccept(IFormFile file)
-        {
-            if (file != null)
-            {
-                var uploadPath = $"{Directory.GetCurrentDirectory()}/uploads";
-
-                // создаем папку для хранения файлов
-                Directory.CreateDirectory(uploadPath);
-                string fullPath = $"{uploadPath}/{file.FileName}";
-
-                // сохраняем файл в папку uploads
-                using (var fileStream = new FileStream(fullPath, FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
-
-                return this.Ok();
-            }
-
-            return this.NoContent();
-        }
-
-        [Authorize]
-        [HttpGet("save")]
-        public FileStreamResult GetSave()
-        {
-            var fileName = User.Identity.Name;
-            var mimeType = "application/octet-stream";
-            var uploadPath = $"{Directory.GetCurrentDirectory()}/uploads/{User.Identity.Name}";
-            var fileStream = new FileStream(uploadPath, FileMode.Open);
-
-            return new FileStreamResult(fileStream, mimeType)
-            {
-                FileDownloadName = fileName,
-            };
         }
 
         [HttpPost("register")]
