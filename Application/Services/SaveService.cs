@@ -21,7 +21,13 @@
 
         public SaveDto GetSaveByUsername(string username)
         {
-            return new SaveDto(_saveRepository.GetSaveByUsername(username));
+            var save = _saveRepository.GetSaveByUsername(username);
+            if (save == null)
+            {
+                return null;
+            }
+
+            return new SaveDto(save);
         }
 
         public SaveDto NewSave(SaveCreateRequestDto save)

@@ -28,6 +28,7 @@
         public Save NewSave(Save save)
         {
             var entity = context.Saves.Add(save);
+            context.Attach(entity.Entity.Player);
             context.SaveChanges();
             return entity.Entity;
         }
