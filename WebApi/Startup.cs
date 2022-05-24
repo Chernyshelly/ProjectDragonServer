@@ -65,7 +65,9 @@ namespace WebApi
             });
 
             services.AddScoped<IPlayerService, PlayerService>();
+            services.AddScoped<ISaveService, SaveService>();
             services.AddScoped<IPlayerRepository, PlayerRepository>();
+            services.AddScoped<ISaveRepository, SaveRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
