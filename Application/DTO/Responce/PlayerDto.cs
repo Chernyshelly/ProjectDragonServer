@@ -1,9 +1,10 @@
 ﻿namespace Application.ViewModels
 {
     using System;
+    using Application.Interfaces;
     using Domain.Models;
 
-    public class PlayerDto
+    public class PlayerDto : IDtoMapper<Player>
     {
         public PlayerDto(Player player)
         {
@@ -30,5 +31,18 @@
         public DateTime RefreshTokenExpiryTime { get; set; }
 
         public int HighScore { get; set; }
+
+        public Player ToModel()
+        {
+            return new Player
+            {
+                Id = this.Id,
+                Username = this.Username,
+                Password = this.Password,
+                RefreshToken = this.RefreshToken,
+                RefreshTokenExpiryTime = this.RefreshTokenExpiryTime,
+                HighScore = this.HighScore,
+            };
+        }
     }
 }
