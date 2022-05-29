@@ -33,10 +33,19 @@
             return entity.Entity;
         }
 
-        public Save UpdateSave(int id, string saveFileName)
+        public Save UpdateSave(int id, string saveFileName, string skillSaveFileName)
         {
             var entity = context.Saves.Where(x => x.Id == id).FirstOrDefault();
-            entity.SaveFileName = saveFileName;
+            if (saveFileName is not null)
+            {
+                entity.SaveFileName = saveFileName;
+            }
+
+            if (skillSaveFileName is not null)
+            {
+                entity.SkillSaveFileName = skillSaveFileName;
+            }
+
             context.SaveChanges();
             return entity;
         }

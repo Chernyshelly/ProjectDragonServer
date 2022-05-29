@@ -11,6 +11,6 @@
 
         public void DeleteSave(int id);
 
-        public SaveDto UpdateSave(int id, string saveFileName);
+        public SaveDto UpdateSave(int id, string saveFileName, string skillSaveFileName);
     }
 }

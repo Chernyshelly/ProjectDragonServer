@@ -10,6 +10,6 @@
 
         public void DeleteSave(int id);
 
-        public Save UpdateSave(int id, string saveFileName);
+        public Save UpdateSave(int id, string saveFileName, string skillSaveFileName);
     }
 }

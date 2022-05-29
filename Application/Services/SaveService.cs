@@ -35,9 +35,9 @@
             return new SaveDto(_saveRepository.NewSave(save.ToModel()));
         }
 
-        public SaveDto UpdateSave(int id, string saveFileName)
+        public SaveDto UpdateSave(int id, string saveFileName, string skillSaveFileName)
         {
-            return new SaveDto(_saveRepository.UpdateSave(id, saveFileName));
+            return new SaveDto(_saveRepository.UpdateSave(id, saveFileName, skillSaveFileName));
         }
     }
 }
