@@ -5,6 +5,7 @@
     using Application.DTO.Request;
     using Application.Interfaces;
     using Application.ViewModels;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
@@ -53,6 +54,19 @@
         public ActionResult<PlayerDto> Insert([FromBody] PlayerCreateRequestDto player)
         {
             return this.Ok(_playerService.InsertPlayer(player));
+        }
+
+        [Authorize]
+        [HttpPost("sendScore")]
+        public ActionResult<PlayerDto> SendScore([FromBody] int score)
+        {
+            var player = _playerService.GetPlayers().Where(x => x.Username == User.Identity.Name).FirstOrDefault();
+            if (player.HighScore == 0 || player.HighScore > score)
+            {
+                player.HighScore = score;
+            }
+
+            return this.Ok(_playerService.EditPlayer(new PlayerEditRequestDto(player)));
         }
     }
 }
